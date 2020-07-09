@@ -18,13 +18,22 @@ namespace TaxonomyCaching
     class Caching
     {
         //Class members
-        public string filePath { get; set; }
-        public string fileName { get; set; }
+        //Local path to store cached data
         public string folderPath { get; set; }
-        public string taxonomyAddressTrimmed { get; set; }
+        //File name to be created in local path
+        public string fileName { get; set; }
+        //Local path to which file is stored
+        public string filePath { get; set; }
+        //Address found in xml instance
         public string taxonomyAddress { get; set; }
+        //Address trimmed to taxonomy folder
+        public string taxonomyAddressTrimmed { get; set; }
+        //Combined string of trimmed address and xlink:href
+        public string combinedLink { get; set; }
+        //
         public List<XAttribute> listXlink = new List<XAttribute>();
         
+        //Run function
         public void run()
         {
             //Set file path for cached files
@@ -36,7 +45,7 @@ namespace TaxonomyCaching
 
 
             //Call function to create directory
-            //createDirectory(folderPath);
+            createDirectory(folderPath);
 
             //Create xDocument variable
             XDocument xDoc;
@@ -47,14 +56,18 @@ namespace TaxonomyCaching
 
 
             //Call function to get xlink:href from xDocument
-            //string xlinkString = getXSDFileAddressString(xDoc);
-            //readXlinkAndWriteFile(xlinkString, filePath);
-
-            //getXMLFileAddressString(filePath);
-
-            //getXMLFileAddressString();
-
+            string xlinkString = getXSDFileAddressString(xDoc);
+            readXlinkAndWriteFile(xlinkString, filePath);
+            //
+            getXMLFileAddressString(filePath);
+            //
+            getXMLFileAddressString();
+            //
             trimXLinkAddress();
+            //
+            combineAddress();
+            //Deletes directory
+            deleteDirectory();
             Console.ReadKey();
         }
 
@@ -97,17 +110,38 @@ namespace TaxonomyCaching
 
                 //Create directory
                 DirectoryInfo dirInfo = Directory.CreateDirectory(folderPath);
-                Console.WriteLine("Directory created at: ", Directory.GetCreationTime(folderPath));
+                Console.WriteLine("Directory created at: ", Directory.GetDirectoryRoot(folderPath));
 
-                //Delete directory
-                //dirInfo.Delete();
-                //Console.WriteLine("Directory deleted");
             }
             //If directory creation fails
             catch (Exception e)
             {
                 Console.WriteLine(e.ToString());
             }
+        }
+
+        //Function to delete directory after use
+        public void deleteDirectory()
+        {
+            //If the path is there
+            if (isPath(folderPath))
+            {
+                System.IO.DirectoryInfo di = new DirectoryInfo(folderPath);
+
+                foreach (FileInfo file in di.GetFiles())
+                {
+                    file.Delete();
+                }
+                foreach (DirectoryInfo dir in di.GetDirectories())
+                {
+                    dir.Delete(true);
+                }
+                Directory.Delete(folderPath, true);
+                
+                
+                Console.WriteLine("Directory deleted");
+            }
+
         }
 
         //Function to get address of xsd file from xml instance
@@ -158,7 +192,7 @@ namespace TaxonomyCaching
         {
             foreach(var xLink in listXlink)
             {
-                Console.WriteLine(xLink.Value);
+                //Console.WriteLine(xLink.Value);
             }
         }
 
@@ -180,6 +214,18 @@ namespace TaxonomyCaching
             //Console.WriteLine(value.Length);
 
             return taxonomyAddressTrimmed;
+        }
+
+        //Function to combine taxonomy address and xlink:href
+        public void combineAddress()
+        {
+            foreach(var address in listXlink)
+            {
+                string adr = address.Value.ToString();
+                combinedLink = taxonomyAddressTrimmed + adr;
+                //Console.WriteLine(combinedLink);
+            }
+            
         }
 
         //Function to load XDocument and write file locally
