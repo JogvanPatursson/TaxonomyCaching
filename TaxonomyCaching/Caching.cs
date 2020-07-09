@@ -36,24 +36,25 @@ namespace TaxonomyCaching
 
 
             //Call function to create directory
-            createDirectory(folderPath);
+            //createDirectory(folderPath);
 
             //Create xDocument variable
             XDocument xDoc;
             xDoc = XDocument.Load("5694_1_2019.xml");
             //xDoc = XDocument.Load("1453_1_2019.xml");
             //xDoc = XDocument.Load("2874_1_2019.xml");
+
+
+
             //Call function to get xlink:href from xDocument
-            string xlinkString = getXSDFileAddressString(xDoc);
+            //string xlinkString = getXSDFileAddressString(xDoc);
+            //readXlinkAndWriteFile(xlinkString, filePath);
 
-            readXlinkAndWriteFile(xlinkString, filePath);
+            //getXMLFileAddressString(filePath);
 
-            //Program.xlinkSearch(filePath);
+            //getXMLFileAddressString();
 
-            getXMLFileAddressString(filePath);
-
-            getXMLFileAddressString();
-
+            trimXLinkAddress();
             Console.ReadKey();
         }
 
@@ -161,8 +162,22 @@ namespace TaxonomyCaching
             }
         }
 
+        //Function to trim taxonomy address found in xml instance
         public string trimXLinkAddress()
         {
+            taxonomyAddress = "https://www.vinnugluggin.fo/taxonomy/20180301/entryFODanishGAAPBalanceSheetAccountFormIncomeStatementByNatureIncludingManagementsReview20161001.xsd";
+            //Reverse taxonomyAddress string
+
+
+            //Split taxonomyAddress string at first '/'
+            string[] split = taxonomyAddress.Split('/');
+            string last = split.Last();
+
+            taxonomyAddress = taxonomyAddress.Replace(last, "");
+
+            Console.WriteLine(taxonomyAddress);
+
+            //Console.WriteLine(value.Length);
 
             return taxonomyAddressTrimmed;
         }
