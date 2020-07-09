@@ -1,0 +1,10 @@
+{
+  "version": 2,
+  "dgSpecHash": "WCKIQsYujbBZ3C4TvA3knKEBjDi6dzXPDOfqXHqbV7O2Vef/vng5V3PBCWYYZZcIgV1AYCxbihgYI7eZmU1WVw==",
+  "success": true,
+  "projectFilePath": "C:\\Users\\jogva\\source\\repos\\TaxonomyCaching\\TaxonomyCaching\\TaxonomyCaching.csproj",
+  "expectedPackageFiles": [
+    "C:\\Users\\jogva\\.nuget\\packages\\newtonsoft.json\\12.0.3\\newtonsoft.json.12.0.3.nupkg.sha512"
+  ],
+  "logs": []
+}

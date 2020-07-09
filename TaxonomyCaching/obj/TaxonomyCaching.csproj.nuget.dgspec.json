@@ -1,0 +1,128 @@
+{
+  "format": 1,
+  "restore": {
+    "C:\\Users\\jogva\\source\\repos\\TaxonomyCaching\\TaxonomyCaching\\TaxonomyCaching.csproj": {}
+  },
+  "projects": {
+    "C:\\Users\\jogva\\Desktop\\fjarskifti\\gepsio-master\\JeffFerguson.Gepsio\\JeffFerguson.Gepsio.csproj": {
+      "version": "2.1.0.16",
+      "restore": {
+        "projectUniqueName": "C:\\Users\\jogva\\Desktop\\fjarskifti\\gepsio-master\\JeffFerguson.Gepsio\\JeffFerguson.Gepsio.csproj",
+        "projectName": "Gepsio",
+        "projectPath": "C:\\Users\\jogva\\Desktop\\fjarskifti\\gepsio-master\\JeffFerguson.Gepsio\\JeffFerguson.Gepsio.csproj",
+        "packagesPath": "C:\\Users\\jogva\\.nuget\\packages\\",
+        "outputPath": "C:\\Users\\jogva\\Desktop\\fjarskifti\\gepsio-master\\JeffFerguson.Gepsio\\obj\\",
+        "projectStyle": "PackageReference",
+        "configFilePaths": [
+          "C:\\Users\\jogva\\AppData\\Roaming\\NuGet\\NuGet.Config",
+          "C:\\Program Files (x86)\\NuGet\\Config\\Microsoft.VisualStudio.Offline.config"
+        ],
+        "originalTargetFrameworks": [
+          "netstandard2.1"
+        ],
+        "sources": {
+          "C:\\Program Files (x86)\\Microsoft SDKs\\NuGetPackages\\": {},
+          "https://api.nuget.org/v3/index.json": {}
+        },
+        "frameworks": {
+          "netstandard2.1": {
+            "projectReferences": {}
+          }
+        },
+        "warningProperties": {
+          "warnAsError": [
+            "NU1605"
+          ]
+        }
+      },
+      "frameworks": {
+        "netstandard2.1": {
+          "dependencies": {
+            "Newtonsoft.Json": {
+              "target": "Package",
+              "version": "[12.0.3, )"
+            }
+          },
+          "imports": [
+            "net461",
+            "net462",
+            "net47",
+            "net471",
+            "net472",
+            "net48"
+          ],
+          "assetTargetFallback": true,
+          "warn": true,
+          "frameworkReferences": {
+            "NETStandard.Library": {
+              "privateAssets": "all"
+            }
+          },
+          "runtimeIdentifierGraphPath": "C:\\Program Files\\dotnet\\sdk\\3.1.301\\RuntimeIdentifierGraph.json"
+        }
+      }
+    },
+    "C:\\Users\\jogva\\source\\repos\\TaxonomyCaching\\TaxonomyCaching\\TaxonomyCaching.csproj": {
+      "version": "1.0.0",
+      "restore": {
+        "projectUniqueName": "C:\\Users\\jogva\\source\\repos\\TaxonomyCaching\\TaxonomyCaching\\TaxonomyCaching.csproj",
+        "projectName": "TaxonomyCaching",
+        "projectPath": "C:\\Users\\jogva\\source\\repos\\TaxonomyCaching\\TaxonomyCaching\\TaxonomyCaching.csproj",
+        "packagesPath": "C:\\Users\\jogva\\.nuget\\packages\\",
+        "outputPath": "C:\\Users\\jogva\\source\\repos\\TaxonomyCaching\\TaxonomyCaching\\obj\\",
+        "projectStyle": "PackageReference",
+        "configFilePaths": [
+          "C:\\Users\\jogva\\AppData\\Roaming\\NuGet\\NuGet.Config",
+          "C:\\Program Files (x86)\\NuGet\\Config\\Microsoft.VisualStudio.Offline.config"
+        ],
+        "originalTargetFrameworks": [
+          "netcoreapp3.1"
+        ],
+        "sources": {
+          "C:\\Program Files (x86)\\Microsoft SDKs\\NuGetPackages\\": {},
+          "https://api.nuget.org/v3/index.json": {}
+        },
+        "frameworks": {
+          "netcoreapp3.1": {
+            "projectReferences": {
+              "C:\\Users\\jogva\\Desktop\\fjarskifti\\gepsio-master\\JeffFerguson.Gepsio\\JeffFerguson.Gepsio.csproj": {
+                "projectPath": "C:\\Users\\jogva\\Desktop\\fjarskifti\\gepsio-master\\JeffFerguson.Gepsio\\JeffFerguson.Gepsio.csproj"
+              }
+            }
+          }
+        },
+        "warningProperties": {
+          "warnAsError": [
+            "NU1605"
+          ]
+        }
+      },
+      "frameworks": {
+        "netcoreapp3.1": {
+          "dependencies": {
+            "Newtonsoft.Json": {
+              "target": "Package",
+              "version": "[12.0.3, )"
+            }
+          },
+          "imports": [
+            "net461",
+            "net462",
+            "net47",
+            "net471",
+            "net472",
+            "net48"
+          ],
+          "assetTargetFallback": true,
+          "warn": true,
+          "frameworkReferences": {
+            "Microsoft.NETCore.App": {
+              "privateAssets": "all"
+            }
+          },
+          "runtimeIdentifierGraphPath": "C:\\Program Files\\dotnet\\sdk\\3.1.301\\RuntimeIdentifierGraph.json"
+        }
+      }
+    }
+  }
+}
