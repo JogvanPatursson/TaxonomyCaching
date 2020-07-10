@@ -35,9 +35,14 @@ namespace TaxonomyCaching
         //String to store name of xDocument
         public string xDocumentName { get; set; }
         //
+        public string adr { get; set; }
         public string folderName { get; set; }
+        //
+        public List<string> xmlFileNames = new List<string>();
         //List of combined string of trimmed address and xlink:href
         public List<string> combinedAddress = new List<string>();
+        //Directory for each new xml file that is read
+        public List<string> listOfDirectories = new List<string>();
         //
         public List<XAttribute> listXlink = new List<XAttribute>();
         //
@@ -285,6 +290,7 @@ namespace TaxonomyCaching
             //Creating lists for storing attributes
             List<XAttribute> listAttributes = new List<XAttribute>();
             listAttributes = doc.Descendants().Attributes().ToList();
+            xDocumentName = listAttributes.ToString();
 
             //Looping through the list of ids and printing them out
             foreach (var xAttribute in listAttributes)
@@ -294,7 +300,9 @@ namespace TaxonomyCaching
                     //toString = xAttribute.Value.ToString();
                     //Console.WriteLine(toString);
                     listXlink.Add(xAttribute);
+                    
                     //Console.WriteLine(xAttribute.Value.ToString());
+
                 }
                 //Console.WriteLine(xAttribute.Value.ToString());
             }
@@ -303,9 +311,6 @@ namespace TaxonomyCaching
         //Function to trim taxonomy address found in xml instance
         public void trimXLinkAddress()
         {
-            //Reverse taxonomyAddress string
-
-
             //Split taxonomyAddress string at first '/'
             string[] split = taxonomyAddress.Split('/');
             string last = split.Last();
@@ -322,9 +327,11 @@ namespace TaxonomyCaching
         {
             foreach (var address in listXlink)
             {
-                string adr = address.Value.ToString();
+                adr = address.Value.ToString();
                 combinedLink = taxonomyAddressTrimmed + adr;
                 combinedAddress.Add(combinedLink);
+                xmlFileNames.Add(adr);
+
                 Console.WriteLine(combinedLink);
             }
         }
@@ -337,9 +344,12 @@ namespace TaxonomyCaching
                 publicXDoc = XDocument.Load(address);
                 xDocumentString = publicXDoc.ToString();
 
-                //Trim everythin but last part of name
-                string[] split = address.Split('/');
-                xDocumentName = split.Last();
+                //Split string into substrings by '/' char
+                //string[] split = address.Split('/');
+                
+                //Remove first part of string, leaving directory and filename
+                xDocumentName = xDocumentName.Replace(taxonomyAddressTrimmed, "");
+                //xDocumentName = split.Last();
 
                 writeFile();
             }
@@ -374,7 +384,7 @@ namespace TaxonomyCaching
                 string folderNameString = var.Value.ToString();
                 string[] split = folderNameString.Split('/');
 
-                folderName = split[0];
+                
 
             }
         }
