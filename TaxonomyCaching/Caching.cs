@@ -34,6 +34,8 @@ namespace TaxonomyCaching
         public string xDocumentString { get; set; }
         //String to store name of xDocument
         public string xDocumentName { get; set; }
+        //
+        public string folderName { get; set; }
         //List of combined string of trimmed address and xlink:href
         public List<string> combinedAddress = new List<string>();
         //
@@ -58,9 +60,11 @@ namespace TaxonomyCaching
             //Create xDocument variable
             XDocument xDoc;
             xDoc = XDocument.Load("5694_1_2019.xml");
-            //xDoc = XDocument.Load("1453_1_2019.xml");
+
+            //xDoc = XDocument.Load("200mrv_pre.xml");
             //xDoc = XDocument.Load("2874_1_2019.xml");
 
+            
             //Call function to get xlink:href from xDocument
             string xlinkString = getXSDFileAddressString(xDoc);
             readXlinkAndWriteFile(xlinkString, filePath);
@@ -72,14 +76,20 @@ namespace TaxonomyCaching
             trimXLinkAddress();
             //
             combineAddress();
+            //
             loadXDocument();
+            //
+            getFolderName();
             //Deletes directory
-            //deleteDirectory();
+            deleteDirectory();
+            
+
+            
             Console.ReadKey();
         }
 
       //Checking if directory path already exists
-        public Boolean isPath(string folderPath)
+        public bool isPath(string folderPath)
         {
             bool path;
 
@@ -122,8 +132,8 @@ namespace TaxonomyCaching
             catch (Exception e)
             {
                 Console.WriteLine(e.ToString());
-        }
             }
+        }
 
         //Function to delete directory after use
         public void deleteDirectory()
@@ -145,7 +155,6 @@ namespace TaxonomyCaching
                 
                 Console.WriteLine("Directory deleted");
             }
-
         }
 
         //Function to get address of xsd file from xml instance
@@ -357,6 +366,19 @@ namespace TaxonomyCaching
             }
         }
         
+        //Function to get first folders to be created
+        public void getFolderName()
+        {
+            foreach (var var in listXlink)
+            {
+                string folderNameString = var.Value.ToString();
+                string[] split = folderNameString.Split('/');
+
+                folderName = split[0];
+
+            }
+        }
+
         //Function to get xml files from xsd file
         public void getXMLFileAddressString()
         {
