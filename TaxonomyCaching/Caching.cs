@@ -30,9 +30,13 @@ namespace TaxonomyCaching
         public string taxonomyAddressTrimmed { get; set; }
         //Combined string of trimmed address and xlink:href
         public string combinedLink { get; set; }
+        //List of combined string of trimmed address and xlink:href
+        public List<string> combinedAddress = new List<string>();
         //
         public List<XAttribute> listXlink = new List<XAttribute>();
-        
+        //
+        public XDocument publicXDoc { get; set; }
+
         //Run function
         public void run()
         {
@@ -53,8 +57,6 @@ namespace TaxonomyCaching
             //xDoc = XDocument.Load("1453_1_2019.xml");
             //xDoc = XDocument.Load("2874_1_2019.xml");
 
-
-
             //Call function to get xlink:href from xDocument
             string xlinkString = getXSDFileAddressString(xDoc);
             readXlinkAndWriteFile(xlinkString, filePath);
@@ -67,7 +69,7 @@ namespace TaxonomyCaching
             //
             combineAddress();
             //Deletes directory
-            deleteDirectory();
+            //deleteDirectory();
             Console.ReadKey();
         }
 
@@ -107,18 +109,16 @@ namespace TaxonomyCaching
                     Console.WriteLine("Path already exists");
                     return;
                 }
-
                 //Create directory
                 DirectoryInfo dirInfo = Directory.CreateDirectory(folderPath);
                 Console.WriteLine("Directory created at: ", Directory.GetDirectoryRoot(folderPath));
-
             }
             //If directory creation fails
             catch (Exception e)
             {
                 Console.WriteLine(e.ToString());
-            }
         }
+            }
 
         //Function to delete directory after use
         public void deleteDirectory()
@@ -137,7 +137,6 @@ namespace TaxonomyCaching
                     dir.Delete(true);
                 }
                 Directory.Delete(folderPath, true);
-                
                 
                 Console.WriteLine("Directory deleted");
             }
@@ -160,12 +159,12 @@ namespace TaxonomyCaching
             //Console.WriteLine(elementString);
 
             //Subtrings
-            //string schemaStr = "<link:schemaRef";
+            string schemaStr = "<link:schemaRef";
             string hrefStr = "xlink:href=";
             
 
-            //if (elementString.StartsWith(schemaStr))
-            //{
+            if (elementString.StartsWith(schemaStr))
+            {
                 //Console.WriteLine("<link:schemaRef is true");
 
                 if (elementString.Contains(hrefStr))
@@ -183,52 +182,11 @@ namespace TaxonomyCaching
 
                     //Console.WriteLine(originString);
                 }
-            //}
+            }
             return taxonomyAddress;
         }
 
-        //Function to get xml files from xsd file
-        public void getXMLFileAddressString()
-        {
-            foreach(var xLink in listXlink)
-            {
-                //Console.WriteLine(xLink.Value);
-            }
-        }
-
-        //Function to trim taxonomy address found in xml instance
-        public string trimXLinkAddress()
-        {
-            taxonomyAddress = "https://www.vinnugluggin.fo/taxonomy/20180301/entryFODanishGAAPBalanceSheetAccountFormIncomeStatementByNatureIncludingManagementsReview20161001.xsd";
-            //Reverse taxonomyAddress string
-
-
-            //Split taxonomyAddress string at first '/'
-            string[] split = taxonomyAddress.Split('/');
-            string last = split.Last();
-
-            taxonomyAddress = taxonomyAddress.Replace(last, "");
-
-            Console.WriteLine(taxonomyAddress);
-
-            //Console.WriteLine(value.Length);
-
-            return taxonomyAddressTrimmed;
-        }
-
-        //Function to combine taxonomy address and xlink:href
-        public void combineAddress()
-        {
-            foreach(var address in listXlink)
-            {
-                string adr = address.Value.ToString();
-                combinedLink = taxonomyAddressTrimmed + adr;
-                //Console.WriteLine(combinedLink);
-            }
-            
-        }
-
-        //Function to load XDocument and write file locally
+        //Function to load XDocument and write file locally **********REPLACE WITH TWO FUNCTIONS******************
         public /*string*/void readXlinkAndWriteFile(string xlink, string fp)
         {
             string originString = xlink;
@@ -287,13 +245,7 @@ namespace TaxonomyCaching
             bool contains = false;
             string str;
             str = xAttribute.Value.ToString();
-            
-
-            //Console.WriteLine(str);
-
-            //Substrings
             string subStr = ".xml";
-            //string originStr = "";
 
             if(str.Contains(subStr))
             {
@@ -303,7 +255,7 @@ namespace TaxonomyCaching
             }
             else
             {
-                
+
             }
             return contains;
         }
@@ -315,14 +267,9 @@ namespace TaxonomyCaching
             string strXmlLocation = fp;
             //string toString = "";
             var doc = XDocument.Load(strXmlLocation);
-            XNamespace link = "http://www.xbrl.org/2003/linkbase";
             
-            // Number of elements with the name label in the document
-            var numberOfLabelElements = (int)doc.Descendants(link + "label").Count();
-            //Creating lists for storing label and ids
-            
+            //Creating lists for storing attributes
             List<XAttribute> listAttributes = new List<XAttribute>();
-
             listAttributes = doc.Descendants().Attributes().ToList();
 
             //Looping through the list of ids and printing them out
@@ -339,12 +286,58 @@ namespace TaxonomyCaching
             }
         }
 
-        public void getXmlFile(string link, string fp)
+        //Function to trim taxonomy address found in xml instance
+        public void trimXLinkAddress()
         {
-            string filePath = fp;
-            string lastPartLink = link;
-            //string firstPartLink = "";
+            //Reverse taxonomyAddress string
+
+
+            //Split taxonomyAddress string at first '/'
+            string[] split = taxonomyAddress.Split('/');
+            string last = split.Last();
+
+            taxonomyAddressTrimmed = taxonomyAddress.Replace(last, "");
+
+            Console.WriteLine(taxonomyAddressTrimmed);
+
+            //Console.WriteLine(value.Length);
         }
+        
+        //Function to combine taxonomy address and xlink:href
+        public void combineAddress()
+        {
+            foreach (var address in listXlink)
+            {
+                string adr = address.Value.ToString();
+                combinedLink = taxonomyAddressTrimmed + adr;
+                combinedAddress.Add(combinedLink);
+                Console.WriteLine(combinedLink);
+            }
+        }
+        public void loadXDocument()
+        {
+            foreach(var address in combinedAddress)
+            {
+                publicXDoc = XDocument.Load(address);
+
+            }
+            
+        }
+
+        public void writeFile()
+        {
+
+        }
+        
+        //Function to get xml files from xsd file
+        public void getXMLFileAddressString()
+        {
+            foreach (var xLink in listXlink)
+            {
+                //Console.WriteLine(xLink.Value);
+            }
+        }
+
 
         /*-----------------------------------------------------*/
         /*-------------------------FACTS-----------------------*/
