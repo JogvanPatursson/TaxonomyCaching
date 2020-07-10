@@ -326,12 +326,11 @@ namespace TaxonomyCaching
                 publicXDoc = XDocument.Load(address);
 
                 //Trim everythin but last part of name
-                string[] split = taxonomyAddress.Split('/');
+                string[] split = address.Split('/');
                 xDocumentString = split.Last();
 
                 writeFile();
             }
-            
         }
 
         //Function to write file
