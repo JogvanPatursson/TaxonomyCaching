@@ -32,6 +32,8 @@ namespace TaxonomyCaching
         public string combinedLink { get; set; }
         //String to store xDocument
         public string xDocumentString { get; set; }
+        //String to store name of xDocument
+        public string xDocumentName { get; set; }
         //List of combined string of trimmed address and xlink:href
         public List<string> combinedAddress = new List<string>();
         //
@@ -324,10 +326,11 @@ namespace TaxonomyCaching
             foreach(var address in combinedAddress)
             {
                 publicXDoc = XDocument.Load(address);
+                xDocumentString = publicXDoc.ToString();
 
                 //Trim everythin but last part of name
                 string[] split = address.Split('/');
-                xDocumentString = split.Last();
+                xDocumentName = split.Last();
 
                 writeFile();
             }
@@ -336,7 +339,7 @@ namespace TaxonomyCaching
         //Function to write file
         public void writeFile()
         {
-            filePath = folderPath + xDocumentString;
+            filePath = folderPath + xDocumentName;
             //Creating file with input from xlinkHref link
             try
             {
@@ -345,7 +348,7 @@ namespace TaxonomyCaching
                     byte[] info = new UTF8Encoding(true).GetBytes(xDocumentString);
                     fs.Write(info, 0, info.Length);
                     //
-                    xDocumentString = String.Empty;
+                    xDocumentName = String.Empty;
                 }
             }
             catch (Exception e)
