@@ -30,6 +30,8 @@ namespace TaxonomyCaching
         public string taxonomyAddressTrimmed { get; set; }
         //Combined string of trimmed address and xlink:href
         public string combinedLink { get; set; }
+        //String to store xDocument
+        public string xDocumentString { get; set; }
         //List of combined string of trimmed address and xlink:href
         public List<string> combinedAddress = new List<string>();
         //
@@ -41,10 +43,10 @@ namespace TaxonomyCaching
         public void run()
         {
             //Set file path for cached files
-            folderPath = @"C:\Users\jogva\Desktop\cache";
+            folderPath = @"C:\Users\jogva\Desktop\cache\";
 
             //Set file name and directory
-            fileName = @"\xlink_href.xml";
+            fileName = @"xlink_href.xml";
             filePath = folderPath + fileName;
 
 
@@ -68,6 +70,7 @@ namespace TaxonomyCaching
             trimXLinkAddress();
             //
             combineAddress();
+            loadXDocument();
             //Deletes directory
             //deleteDirectory();
             Console.ReadKey();
@@ -314,19 +317,42 @@ namespace TaxonomyCaching
                 Console.WriteLine(combinedLink);
             }
         }
+
+        //Function to load xDocument from list of addresses
         public void loadXDocument()
         {
             foreach(var address in combinedAddress)
             {
                 publicXDoc = XDocument.Load(address);
 
+                //Trim everythin but last part of name
+                string[] split = taxonomyAddress.Split('/');
+                xDocumentString = split.Last();
+
+                writeFile();
             }
             
         }
 
+        //Function to write file
         public void writeFile()
         {
-
+            filePath = folderPath + xDocumentString;
+            //Creating file with input from xlinkHref link
+            try
+            {
+                using (FileStream fs = File.Create(filePath))
+                {
+                    byte[] info = new UTF8Encoding(true).GetBytes(xDocumentString);
+                    fs.Write(info, 0, info.Length);
+                    //
+                    xDocumentString = String.Empty;
+                }
+            }
+            catch (Exception e)
+            {
+                Console.WriteLine(e.ToString());
+            }
         }
         
         //Function to get xml files from xsd file
